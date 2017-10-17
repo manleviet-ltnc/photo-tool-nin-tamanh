@@ -8,6 +8,11 @@ C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\
 C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.exe
 C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.pdb
 C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.MainForm.resources
+C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotos.exe.config
+C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotos.exe
+C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotos.pdb
+C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotoAlbum.dll
+C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotoAlbum.pdb
 C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.csprojResolveAssemblyReference.cache
 C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.MainForm.resources
 C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.Properties.Resources.resources

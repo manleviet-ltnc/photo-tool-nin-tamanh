@@ -34,7 +34,7 @@ namespace Manning.MyPhotoAlbum
             set
             {
                 if (value < 0 || value >= Album.Count)
-                    throw new IndexOutOfRangeException("The give index in out of bounds  ")
+                    throw new IndexOutOfRangeException("The give index in out of bounds  ");
                 _pos = value;
             }
         }
@@ -95,8 +95,8 @@ namespace Manning.MyPhotoAlbum
         }
         public void Save()
         {
-            if(FullName == null)
-                throw new InvalidOperationException("Unable to save album with no name")
+            if (FullName == null)
+                throw new InvalidOperationException("Unable to save album with no name");
             AlbumStorage.WriteAlbum(Album, FullName);
         }
         public void Save(string name, bool overwrite)
