@@ -20,3 +20,8 @@ C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos
 C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.csproj.CoreCompileInputs.cache
 C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.exe
 C:\Users\viettelhungvuong\Documents\GitHub\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\obj\Debug\MyPhotos.pdb
+C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotoAlbum.dll
+C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotoAlbum.pdb
+C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotoControls.dll
+C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotoControls.pdb
+C:\Users\quanglong\Documents\GitHub\photo-tool-nin-tamanh\MyPhotos\MyPhotos\bin\Debug\MyPhotoControls.dll.config
