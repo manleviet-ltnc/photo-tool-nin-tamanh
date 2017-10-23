@@ -16,7 +16,7 @@ namespace Manning.MyPhotoAlbum
 
     public class AlbumStorage
     {
-        static private int CurrentVersion = 63;
+        static private int CurrentVersion = 91;
 
         static public void WriteAlbum(PhotoAlbum album, string path)
         {
@@ -26,6 +26,10 @@ namespace Manning.MyPhotoAlbum
             {
                 sw = new StreamWriter(path, false);
                 sw.WriteLine(CurrentVersion.ToString());
+
+                // Save album properties
+                sw.WriteLine(album.Title);
+                sw.WriteLine(album.PhotoDescriptor.ToString());
 
                 foreach (Photograph p in album)
                     WritePhoto(sw, p);
@@ -68,6 +72,9 @@ namespace Manning.MyPhotoAlbum
                     case "63":
                         ReadAlbumV63(sr, album);
                         break;
+                    case "91":
+                        ReadAlbumV91(sr, album);
+                        break;
                     default:
                         throw new AlbumStorageException("Unrecognized album version");
                 }
@@ -95,6 +102,18 @@ namespace Manning.MyPhotoAlbum
                     album.Add(p);
             } while (p != null);
         }
+
+        static private void ReadAlbumV91( StreamReader sr, PhotoAlbum album)
+        {
+            // Read album Properties
+            album.Title = sr.ReadLine();
+            string enumVal = sr.ReadLine();
+            album.PhotoDescriptor = (PhotoAlbum.DescriptorOption)Enum.Parse(typeof(PhotoAlbum.DescriptorOption), enumVal);
+
+            // Version 91 finishes with Version 63
+            ReadAlbumV63(sr, album);
+        }
+
         static private Photograph ReadPhotoV63( StreamReader sr)
         {
             string file = sr.ReadLine();
