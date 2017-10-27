@@ -164,6 +164,18 @@ namespace MyPhotos
             {
 
                 string path = dlg.FileName;
+                string pwd = null;
+                //Get password if encrypted
+                if  (AlbumStorage.IsEncryted(path))
+                {
+                    using (AlbumPasswordDialog pwdDlg = new AlbumPasswordDialog())
+                    {
+                        pwdDlg.Album = path;
+                        if (pwdDlg.ShowDialog() != DialogResult.OK)
+                            return; //open cancelled
+                        pwd = pwdDlg.Password;
+                    }
+                }
 
                 if (!SaveAndCloseAlbum())
                     return;
@@ -173,7 +185,7 @@ namespace MyPhotos
                 {
                     //Open the new album
                     //TODO: handle invalid album file
-                    Manager = new AlbumManager(path);
+                    Manager = new AlbumManager(path, pwd);
                 }
                 catch (AlbumStorageException aex)
                 {

@@ -10,22 +10,33 @@ namespace Manning.MyPhotoAlbum
     public class AlbumStorageException : Exception
     {
         public AlbumStorageException() : base() { }
-        public AlbumStorageException(string msg) :base(msg) { }
-        public AlbumStorageException(string msg, Exception inner ) : base(msg, inner) { }
+        public AlbumStorageException(string msg) : base(msg) { }
+        public AlbumStorageException(string msg, Exception inner) : base(msg, inner) { }
     }
 
     public class AlbumStorage
     {
         static private int CurrentVersion = 91;
 
-        static public void WriteAlbum(PhotoAlbum album, string path)
+        static public void WriteAlbum(PhotoAlbum album, string path, string password)
         {
             StreamWriter sw = null;
 
-           try
+            try
             {
-                sw = new StreamWriter(path, false);
-                sw.WriteLine(CurrentVersion.ToString());
+                if (password == null || password.Length == 0)
+                {
+                    sw = new StreamWriter(path, false);
+                    sw.WriteLine(CurrentVersion.ToString());
+                }
+                else
+                {
+                    //Create  CryptoWriter to use as StreamWriter
+                    CryptoWriter cw = new CryptoWriter(path, password);
+                    cw.WriteUnencryptedLine(CurrentVersion.ToString() + 'e');
+                    cw.WriteLine(password);
+                    sw = cw;
+                }
 
                 // Save album properties
                 sw.WriteLine(album.Title);
@@ -34,10 +45,10 @@ namespace Manning.MyPhotoAlbum
                 foreach (Photograph p in album)
                     WritePhoto(sw, p);
 
-                
-                album.HasChanged = false;       
+
+                album.HasChanged = false;
             }
-            catch(UnauthorizedAccessException uax)
+            catch (UnauthorizedAccessException uax)
             {
                 throw new AlbumStorageException("Unable to access album" + path, uax);
             }
@@ -46,6 +57,10 @@ namespace Manning.MyPhotoAlbum
                 if (sw != null)
                     sw.Close();
             }
+        }
+        static public void WriteAlbum(PhotoAlbum album, string path)
+        {
+            WriteAlbum(album, path, null);
         }
         static private void WritePhoto(StreamWriter sw, Photograph p)
         {
@@ -57,14 +72,40 @@ namespace Manning.MyPhotoAlbum
             sw.WriteLine(p.Notes != null ? p.Notes : "");
 
         }
-        static public PhotoAlbum ReadAlbum(string path)
+        static public PhotoAlbum ReadAlbum(string path, string password)
         {
             StreamReader sr = null;
 
             try
             {
-                sr = new StreamReader(path);
-                string version = sr.ReadLine();
+                string version;
+                if (password == null || password.Length == 0)
+                {
+                    sr = new StreamReader(path);
+                    version = sr.ReadLine();
+                    if (version.EndsWith("e"))
+                        throw new AlbumStorageException(" A password  is required to open the album ");
+                }
+                else
+                {
+                    // Create CryptoReader  to use  as StreamReader
+                    CryptoReader cr = new CryptoReader(path, password);
+                    version = cr.ReadUnencryptedLine();
+                    if (!version.EndsWith("e"))
+                    {
+                        // Decryption not required 
+                        cr.Close();
+                        sr = new StreamReader(path);
+                        version = sr.ReadLine();
+                    }
+                    else
+                    {
+                        string checkLine = cr.ReadLine();
+                        if (checkLine != password)
+                            throw new AlbumStorageException("The given password is not valid ");
+                        sr = cr;
+                    }
+                }
 
                 PhotoAlbum album = new PhotoAlbum();
                 switch (version)
@@ -73,6 +114,7 @@ namespace Manning.MyPhotoAlbum
                         ReadAlbumV63(sr, album);
                         break;
                     case "91":
+                    case "91e":
                         ReadAlbumV91(sr, album);
                         break;
                     default:
@@ -80,8 +122,12 @@ namespace Manning.MyPhotoAlbum
                 }
                 album.HasChanged = false;
                 return album;
-            } 
-            catch(FileNotFoundException fnx)
+            }
+            catch (System.Security.Cryptography.CryptographicException cex)
+            {
+                throw new AlbumStorageException("Unable to decrypt album" + path, cex);
+            }
+            catch (FileNotFoundException fnx)
             {
                 throw new AlbumStorageException("Unable to read album " + path, fnx);
             }
@@ -91,7 +137,13 @@ namespace Manning.MyPhotoAlbum
                     sr.Close();
             }
         }
-        static private void ReadAlbumV63( StreamReader sr, PhotoAlbum  album)
+
+        static public PhotoAlbum ReadAlbum(string path)
+        {
+            return ReadAlbum(path, null);
+        }
+
+        static private void ReadAlbumV63(StreamReader sr, PhotoAlbum album)
         {
 
             Photograph p;
@@ -103,7 +155,7 @@ namespace Manning.MyPhotoAlbum
             } while (p != null);
         }
 
-        static private void ReadAlbumV91( StreamReader sr, PhotoAlbum album)
+        static private void ReadAlbumV91(StreamReader sr, PhotoAlbum album)
         {
             // Read album Properties
             album.Title = sr.ReadLine();
@@ -114,7 +166,7 @@ namespace Manning.MyPhotoAlbum
             ReadAlbumV63(sr, album);
         }
 
-        static private Photograph ReadPhotoV63( StreamReader sr)
+        static private Photograph ReadPhotoV63(StreamReader sr)
         {
             string file = sr.ReadLine();
             if (file == null || file.Length == 0)
@@ -130,5 +182,22 @@ namespace Manning.MyPhotoAlbum
 
             return p;
         }
+        static public bool IsEncryted(string path)
+        {
+            StreamReader sr = null;
+            try
+            {
+                using (sr = new StreamReader(path))
+                {
+                    string version = sr.ReadLine();
+                    return version.EndsWith("e");
+                }
+
+            }
+            catch (FieldAccessException fnx )
+            {
+                throw new AlbumStorageException(" Unable to  find album " + path, fnx);
+            }
+            }
+        }
     }
-}
