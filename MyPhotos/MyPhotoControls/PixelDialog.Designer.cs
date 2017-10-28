@@ -1,4 +1,4 @@
-﻿namespace Mainning.MyPhotoControls
+﻿namespace Manning.MyPhotoControls
 {
     partial class PixelDialog
     {
@@ -46,8 +46,8 @@
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.ColumnCount = 2;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50.76923F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 49.23077F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.lblX, 1, 0);
             this.tableLayoutPanel1.Controls.Add(this.label3, 0, 1);
@@ -59,7 +59,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label9, 0, 4);
             this.tableLayoutPanel1.Controls.Add(this.lblBlue, 1, 4);
             this.tableLayoutPanel1.GrowStyle = System.Windows.Forms.TableLayoutPanelGrowStyle.FixedSize;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(3, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(1, 1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 5;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -67,15 +67,15 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(130, 144);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(134, 160);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // btnClose
             // 
             this.btnClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnClose.Location = new System.Drawing.Point(30, 151);
+            this.btnClose.Location = new System.Drawing.Point(27, 167);
             this.btnClose.Name = "btnClose";
-            this.btnClose.Size = new System.Drawing.Size(73, 28);
+            this.btnClose.Size = new System.Drawing.Size(75, 23);
             this.btnClose.TabIndex = 1;
             this.btnClose.Text = "&Close";
             this.btnClose.UseVisualStyleBackColor = true;
@@ -87,7 +87,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(3, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(59, 28);
+            this.label1.Size = new System.Drawing.Size(61, 32);
             this.label1.TabIndex = 0;
             this.label1.Text = "X:";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -95,20 +95,21 @@
             // lblX
             // 
             this.lblX.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblX.Location = new System.Drawing.Point(80, 9);
+            this.lblX.Location = new System.Drawing.Point(82, 9);
             this.lblX.Margin = new System.Windows.Forms.Padding(15, 9, 3, 0);
             this.lblX.Name = "lblX";
             this.lblX.Size = new System.Drawing.Size(40, 15);
             this.lblX.TabIndex = 1;
             this.lblX.Text = "label2";
+            this.lblX.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(3, 28);
+            this.label3.Location = new System.Drawing.Point(3, 32);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 28);
+            this.label3.Size = new System.Drawing.Size(61, 32);
             this.label3.TabIndex = 2;
             this.label3.Text = "Y:";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -116,20 +117,21 @@
             // lblY
             // 
             this.lblY.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblY.Location = new System.Drawing.Point(80, 37);
+            this.lblY.Location = new System.Drawing.Point(82, 41);
             this.lblY.Margin = new System.Windows.Forms.Padding(15, 9, 3, 0);
             this.lblY.Name = "lblY";
             this.lblY.Size = new System.Drawing.Size(40, 15);
             this.lblY.TabIndex = 3;
             this.lblY.Text = "label4";
+            this.lblY.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(3, 56);
+            this.label5.Location = new System.Drawing.Point(3, 64);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(59, 28);
+            this.label5.Size = new System.Drawing.Size(61, 32);
             this.label5.TabIndex = 4;
             this.label5.Text = "Red:";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -137,20 +139,21 @@
             // lblRed
             // 
             this.lblRed.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblRed.Location = new System.Drawing.Point(80, 65);
+            this.lblRed.Location = new System.Drawing.Point(82, 73);
             this.lblRed.Margin = new System.Windows.Forms.Padding(15, 9, 3, 0);
             this.lblRed.Name = "lblRed";
             this.lblRed.Size = new System.Drawing.Size(40, 15);
             this.lblRed.TabIndex = 5;
             this.lblRed.Text = "label6";
+            this.lblRed.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label7.Location = new System.Drawing.Point(3, 84);
+            this.label7.Location = new System.Drawing.Point(3, 96);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(59, 28);
+            this.label7.Size = new System.Drawing.Size(61, 32);
             this.label7.TabIndex = 6;
             this.label7.Text = "Green:";
             this.label7.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -158,20 +161,21 @@
             // lblGreen
             // 
             this.lblGreen.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblGreen.Location = new System.Drawing.Point(80, 93);
+            this.lblGreen.Location = new System.Drawing.Point(82, 105);
             this.lblGreen.Margin = new System.Windows.Forms.Padding(15, 9, 3, 0);
             this.lblGreen.Name = "lblGreen";
             this.lblGreen.Size = new System.Drawing.Size(40, 15);
             this.lblGreen.TabIndex = 7;
             this.lblGreen.Text = "label8";
+            this.lblGreen.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label9
             // 
             this.label9.AutoSize = true;
             this.label9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label9.Location = new System.Drawing.Point(3, 112);
+            this.label9.Location = new System.Drawing.Point(3, 128);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(59, 32);
+            this.label9.Size = new System.Drawing.Size(61, 32);
             this.label9.TabIndex = 8;
             this.label9.Text = "Blue:";
             this.label9.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
@@ -179,12 +183,13 @@
             // lblBlue
             // 
             this.lblBlue.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
-            this.lblBlue.Location = new System.Drawing.Point(80, 121);
+            this.lblBlue.Location = new System.Drawing.Point(82, 137);
             this.lblBlue.Margin = new System.Windows.Forms.Padding(15, 9, 3, 0);
             this.lblBlue.Name = "lblBlue";
             this.lblBlue.Size = new System.Drawing.Size(40, 15);
             this.lblBlue.TabIndex = 9;
             this.lblBlue.Text = "label10";
+            this.lblBlue.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // PixelDialog
             // 
@@ -192,7 +197,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnClose;
-            this.ClientSize = new System.Drawing.Size(134, 191);
+            this.ClientSize = new System.Drawing.Size(134, 192);
             this.Controls.Add(this.btnClose);
             this.Controls.Add(this.tableLayoutPanel1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;

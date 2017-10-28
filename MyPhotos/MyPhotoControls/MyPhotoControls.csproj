@@ -4,9 +4,9 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A880B4BD-ABB0-4596-ADBB-F1CEEDA866DE}</ProjectGuid>
+    <ProjectGuid>{ABE505EF-7036-49D3-AD12-F0C44552FFD5}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Mainning.MyPhotoControls</RootNamespace>
+    <RootNamespace>Manning.MyPhotoControls</RootNamespace>
     <AssemblyName>MyPhotoControls</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AlbumController.cs" />
     <Compile Include="AlbumEditDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -75,16 +76,11 @@
       <DependentUpon>PixelDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <DependentUpon>Settings.settings</DependentUpon>
-    </Compile>
     <Service Include="{94E38DFF-614B-4cbd-B67C-F211BB35CE8B}" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\MyPhotoAlbum\MyPhotoAlbum.csproj">
-      <Project>{65bb512d-d08c-466a-9354-95b6b1298cc2}</Project>
+      <Project>{ba28f54e-5817-4900-a0d6-621702d8e6c9}</Project>
       <Name>MyPhotoAlbum</Name>
     </ProjectReference>
   </ItemGroup>
@@ -104,13 +100,6 @@
     <EmbeddedResource Include="PixelDialog.resx">
       <DependentUpon>PixelDialog.cs</DependentUpon>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

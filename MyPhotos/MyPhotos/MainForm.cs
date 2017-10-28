@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Manning.MyPhotoAlbum;
-using Mainning.MyPhotoControls;
+using Manning.MyPhotoControls;
 
 namespace MyPhotos
 {
@@ -36,10 +36,10 @@ namespace MyPhotos
 
         public MainForm()
         {
-
             InitializeComponent();
             NewAlbum();
         }
+
         private void NewAlbum()
         {
             if (Manager == null || SaveAndCloseAlbum())
@@ -48,6 +48,7 @@ namespace MyPhotos
                 DisplayAlbum();
             }
         }
+
         private void DisplayAlbum()
         {
             pbxPhoto.Image = Manager.CurrentImage;
@@ -63,9 +64,8 @@ namespace MyPhotos
             Version ver = new Version(Application.ProductVersion);
             string name = Manager.FullName;
             Text = String.Format("{2} - MyPhotos {0:0}.{1:0}",
-                                   ver.Major, ver.Minor,
-                                   String.IsNullOrEmpty(name) ? "untitled" : name);
-
+                                 ver.Major, ver.Minor,
+                                 String.IsNullOrEmpty(name) ? "Untitled" : name);
         }
 
         private void mnuFileLoad_Click(object sender, EventArgs e)
@@ -73,7 +73,7 @@ namespace MyPhotos
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.Title = "Open Photo";
             dlg.Filter = "jpg files (*.jpg)|*.jpg"
-                + "|All files (*.*)|*.*";
+                         + "|All files (*.*)|*.*";
             if (dlg.ShowDialog() == DialogResult.OK)
             {
                 try
@@ -82,7 +82,7 @@ namespace MyPhotos
                 }
                 catch (ArgumentException ex)
                 {
-                    MessageBox.Show("Unable to laod file:" + ex.Message);
+                    MessageBox.Show("Unable to load file: " + ex.Message);
                     pbxPhoto.Image = null;
                 }
                 SetStatusStrip(dlg.FileName);
@@ -97,10 +97,10 @@ namespace MyPhotos
 
         private void mnuImage_DropDownItemClicked(object sender, ToolStripItemClickedEventArgs e)
         {
-            processImageClick(e);
+            ProcessImageClick(e);
         }
-        private void processImageClick(ToolStripItemClickedEventArgs e)
 
+        private void ProcessImageClick(ToolStripItemClickedEventArgs e)
         {
             ToolStripItem item = e.ClickedItem;
             string enumVal = item.Tag as string;
@@ -114,6 +114,7 @@ namespace MyPhotos
         {
             ProcessImageOpening(sender as ToolStripDropDownItem);
         }
+
         private void ProcessImageOpening(ToolStripDropDownItem parent)
         {
             if (parent != null)
@@ -126,24 +127,24 @@ namespace MyPhotos
                 }
             }
         }
+
         private void SetStatusStrip(string path)
         {
             if (pbxPhoto.Image != null)
             {
-                sttinfo.Text = Manager.Current.Caption;
-                sttImageSize.Text = string.Format("{0:#}x{1:#}",
-                                            pbxPhoto.Image.Width,
-                                            pbxPhoto.Image.Height);
-
-                sttAbumPos.Text = String.Format("{0:0}/{1:0}",
-                                               Manager.Index + 1,
-                                               Manager.Album.Count);
+                sttInfo.Text = Manager.Current.Caption;
+                sttImageSize.Text = String.Format("{0:#}x{1:#}",
+                                                  pbxPhoto.Image.Width,
+                                                  pbxPhoto.Image.Height);
+                sttAlbumPos.Text = String.Format(" {0:0}/{1:0} ",
+                                                 Manager.Index + 1,
+                                                 Manager.Album.Count);
             }
             else
             {
-                sttinfo.Text = null;
+                sttInfo.Text = null;
                 sttImageSize.Text = null;
-                sttAbumPos.Text = null;
+                sttAlbumPos.Text = null;
             }
         }
 
@@ -154,50 +155,27 @@ namespace MyPhotos
 
         private void mnuFileOpen_Click(object sender, EventArgs e)
         {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.Title = "Open Album";
-            dlg.Filter = "Album files (*.abm)|*.abm"
-                + "|All files (*.*)|*.*";
-            dlg.InitialDirectory = AlbumManager.DefaultPath;
-            dlg.RestoreDirectory = true;
-            if (dlg.ShowDialog() == DialogResult.OK)
+            string path = null;
+            string password = null;
+            if (AlbumController.OpenAlbumDialog(ref path, ref password))
             {
-
-                string path = dlg.FileName;
-                string pwd = null;
-                //Get password if encrypted
-                if  (AlbumStorage.IsEncryted(path))
-                {
-                    using (AlbumPasswordDialog pwdDlg = new AlbumPasswordDialog())
-                    {
-                        pwdDlg.Album = path;
-                        if (pwdDlg.ShowDialog() != DialogResult.OK)
-                            return; //open cancelled
-                        pwd = pwdDlg.Password;
-                    }
-                }
-
                 if (!SaveAndCloseAlbum())
                     return;
 
-
                 try
                 {
-                    //Open the new album
-                    //TODO: handle invalid album file
-                    Manager = new AlbumManager(path, pwd);
+                    // Open the new album
+                    Manager = new AlbumManager(path, password);
                 }
                 catch (AlbumStorageException aex)
                 {
                     string msg = String.Format("Unable to open album file {0}\n({1})",
-                                                   path, aex.Message);
-                    MessageBox.Show(msg, "Unable to open");
+                                               path, aex.Message);
+                    MessageBox.Show(msg, "Unable to Open");
                     Manager = new AlbumManager();
-
                 }
                 DisplayAlbum();
             }
-            dlg.Dispose();
         }
 
         private void SaveAlbum(string name)
@@ -209,15 +187,15 @@ namespace MyPhotos
             catch (AlbumStorageException aex)
             {
                 string msg = String.Format("Unable to save album {0} ({1})\n\n"
-                                           + "Do you wish to save the album"
+                                           + "Do you wish to save the album "
                                            + "under a alternate name?",
                                            name, aex.Message);
                 DialogResult result = MessageBox.Show(msg, "Unable to Save", MessageBoxButtons.YesNo,
-                                                     MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
-                if (result == DialogResult.Yes)
-                    SaveAlbum();
-            }
+                                                      MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
 
+                if (result == DialogResult.Yes)
+                    SaveAsAlbum();
+            }
         }
 
         private void SaveAlbum()
@@ -226,44 +204,30 @@ namespace MyPhotos
                 SaveAsAlbum();
             else
             {
-                //Save the Album under the existing name
+                // Save the album under the existing name
                 SaveAlbum(Manager.FullName);
             }
         }
+
         private void SaveAsAlbum()
         {
-            SaveFileDialog dlg = new SaveFileDialog();
-            dlg.Title = "Save Album";
-            dlg.DefaultExt = "abm";
-            dlg.Filter = "Album files (*.abm)|*.abm"
-                + "|All files (*.*)|*.*";
-            dlg.InitialDirectory = AlbumManager.DefaultPath;
-            dlg.RestoreDirectory = true;
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                SaveAlbum(dlg.FileName);
-                //Update title bar to include new name
+            string path = null;
+            if (AlbumController.SaveAlbumDialog(ref path))
+            { 
+                SaveAlbum(path);
+                // Update title bar to include new name
                 SetTitleBar();
             }
-            dlg.Dispose();
         }
+
         private bool SaveAndCloseAlbum()
         {
-            if (Manager.Album.HasChanged)
-            {
-                string msg;
-                if (string.IsNullOrEmpty(Manager.FullName))
-                    msg = "Do you wish to save your changes?";
-                else
-                    msg = String.Format("Do you wish to save your changes to \n{0}?", Manager.FullName);
-                DialogResult result = MessageBox.Show(this, msg, "Save changes?",
-                                       MessageBoxButtons.YesNoCancel,
-                                       MessageBoxIcon.Question);
-                if (result == DialogResult.Yes)
-                    SaveAlbum();
-                else if (result == DialogResult.Cancel)
-                    return false;
-            }
+            DialogResult result = AlbumController.AskForSave(Manager);
+
+            if (result == DialogResult.Yes)
+                SaveAlbum();
+            else if (result == DialogResult.Cancel)
+                return false;
 
             if (Manager.Album != null)
                 Manager.Album.Dispose();
@@ -272,7 +236,6 @@ namespace MyPhotos
             SetTitleBar();
             return true;
         }
-
 
         private void mnuFileSave_Click(object sender, EventArgs e)
         {
@@ -290,13 +253,13 @@ namespace MyPhotos
 
             dlg.Title = "Add Photos";
             dlg.Multiselect = true;
-            dlg.Filter = "Image Files(JPEG, GIF, BMP, etc.)|*jpg;*.jpeg;*.gif;*.bmp;*.tiff;*.png|" +
-                         "JPEG files (*.jpg;*.jpeg)|*.jpg;*.jpeg |" +
+            dlg.Filter = "Image Files (JPEG, GIF, BMP, etc.)|*.jpg;*.jpeg;*.gif;*.bmp;*.tiff;*.png|" +
+                         "JPEG files (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
                          "GIF files (*.gif)|*.gif|" +
                          "BMP files (*.bmp)|*.bmp|" +
-                         "TIFF files (*.tif;*.tiff) |*.tif;*.tiff|" +
-                         "PNG files (*.png )|*.png|" +
-                         "All files (*.*)|*.* ";
+                         "TIFF files (*.tif;*.tiff)|*.tif;*.tiff|" +
+                         "PNG files (*.png)|*.png|" +
+                         "All files (*.*)|*.*";
             dlg.InitialDirectory = Environment.CurrentDirectory;
 
             if (dlg.ShowDialog() == DialogResult.OK)
@@ -318,7 +281,6 @@ namespace MyPhotos
             }
             dlg.Dispose();
             DisplayAlbum();
-
         }
 
         private void mnuEditRemove_Click(object sender, EventArgs e)
@@ -372,26 +334,26 @@ namespace MyPhotos
                 PixelForm = new PixelDialog();
                 PixelForm.Owner = this;
             }
-
             PixelForm.Show();
-
             Point p = pbxPhoto.PointToClient(Form.MousePosition);
             UpdatePixelDialog(p.X, p.Y);
-
         }
-        private void UpdatePixelDialog(int X, int Y)
+
+        private void UpdatePixelDialog(int x, int y)
         {
             if (PixelForm != null && PixelForm.Visible)
             {
                 Bitmap bmp = Manager.CurrentImage;
-                PixelForm.Text = (Manager.Current == null) ? "Pixel Data" : Manager.Current.Caption;
 
-                if (bmp == null || !pbxPhoto.DisplayRectangle.Contains(X, Y))
+                PixelForm.Text = (Manager.Current == null ? "Pixel Data" : Manager.Current.Caption);
+
+                if (bmp == null || !pbxPhoto.DisplayRectangle.Contains(x, y))
                     PixelForm.ClearPixelData();
                 else
-                    PixelForm.UpdatePixelData(X, Y, bmp, pbxPhoto.DisplayRectangle,
-                        new Rectangle(0, 0, bmp.Width, bmp.Height),
-                        pbxPhoto.SizeMode);
+                    PixelForm.UpdatePixelData(x, y, bmp,
+                                              pbxPhoto.DisplayRectangle,
+                                              new Rectangle(0, 0, bmp.Width, bmp.Height),
+                                              pbxPhoto.SizeMode);
             }
         }
 
@@ -439,6 +401,7 @@ namespace MyPhotos
             }
             base.OnKeyPress(e);
         }
+
         protected override void OnKeyDown(KeyEventArgs e)
         {
             switch (e.KeyCode)
@@ -454,10 +417,12 @@ namespace MyPhotos
             }
             base.OnKeyDown(e);
         }
+
         private const int WM_KEYDOWN = 0x100;
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if(msg.Msg == WM_KEYDOWN)
+            if (msg.Msg == WM_KEYDOWN)
+            {
                 switch (keyData)
                 {
                     case Keys.Tab:
@@ -467,6 +432,7 @@ namespace MyPhotos
                         mnuPrevious.PerformClick();
                         return true;
                 }
+            }
             return base.ProcessCmdKey(ref msg, keyData);
         }
     }

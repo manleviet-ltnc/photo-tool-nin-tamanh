@@ -2,16 +2,16 @@
 using System.IO;
 using System.Text;
 
-
 namespace Manning.MyPhotoAlbum
 {
-    class CryptoReader: StreamReader
+    class CryptoReader : StreamReader
     {
         private CryptoTextBase _base;
         private CryptoTextBase CryptoBase
         {
             get { return _base; }
         }
+
         public CryptoReader(string path, string password) : base(path)
         {
             if (path == null || path.Length == 0)
@@ -21,20 +21,19 @@ namespace Manning.MyPhotoAlbum
 
             _base = new CryptoTextBase(password);
         }
+
         public override string ReadLine()
         {
-            string encryted = base.ReadLine();
-            if (encryted == null || encryted.Length == 0)
-                return encryted;
+            string encrypted = base.ReadLine();
+            if (encrypted == null || encrypted.Length == 0)
+                return encrypted;
             else
-                return CryptoBase.ProcessText(encryted, false);
+                return CryptoBase.ProcessText(encrypted, false);
         }
+
         public string ReadUnencryptedLine()
         {
             return base.ReadLine();
-                
         }
-
     }
-
 }

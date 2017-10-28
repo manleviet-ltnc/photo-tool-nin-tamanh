@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace Mainning.MyPhotoControls
+namespace Manning.MyPhotoControls
 {
     public partial class AlbumPasswordDialog : Form
     {
@@ -17,7 +17,8 @@ namespace Mainning.MyPhotoControls
             get { return txtAlbum.Text; }
             set { txtAlbum.Text = value; }
         }
-        public string  Password
+
+        public string Password
         {
             get { return txtPassword.Text; }
             set { txtPassword.Text = value; }
@@ -26,13 +27,15 @@ namespace Mainning.MyPhotoControls
         public AlbumPasswordDialog()
         {
             InitializeComponent();
-            // Define dialog result  for link lables
-            IButtonControl btn = (IButtonControl)lnkOk;
+
+            // Define dialog results for link labels
+            IButtonControl btn = (IButtonControl)lnkOK;
             btn.DialogResult = DialogResult.OK;
             btn = (IButtonControl)lnkCancel;
             btn.DialogResult = DialogResult.Cancel;
         }
-        private void lnk_LinkClicked(Object sender, LinkLabelLinkClickedEventArgs e)
+
+        private void lnk_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             IButtonControl btn = sender as IButtonControl;
             if (btn != null)

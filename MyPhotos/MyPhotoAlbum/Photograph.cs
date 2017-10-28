@@ -32,7 +32,6 @@ namespace Manning.MyPhotoAlbum
 
         private string _caption = "";
         public string Caption
-
         {
             get { return _caption; }
             set
@@ -40,24 +39,25 @@ namespace Manning.MyPhotoAlbum
                 if (_caption != value)
                 {
                     _caption = value;
-                    _hasChanged = true;
-                }
-            }
-        }
-
-        private string _photograper = "";
-        public string Photographer
-        {
-            get { return _photograper; }
-            set
-            {
-                if (_photograper != value)
-                {
-                    _photograper = value;
                     HasChanged = true;
                 }
             }
         }
+
+        private string _photographer = "";
+        public string Photographer
+        {
+            get { return _photographer; }
+            set
+            {
+                if (_photographer != value)
+                {
+                    _photographer = value;
+                    HasChanged = true;
+                }
+            }
+        }
+
         private DateTime _dateTaken = DateTime.Now;
         public DateTime DateTaken
         {
@@ -71,6 +71,7 @@ namespace Manning.MyPhotoAlbum
                 }
             }
         }
+
         private string _notes = "";
         public string Notes
         {
@@ -84,6 +85,7 @@ namespace Manning.MyPhotoAlbum
                 }
             }
         }
+
         private bool _hasChanged = true;
         public bool HasChanged
         {
@@ -97,31 +99,36 @@ namespace Manning.MyPhotoAlbum
             _bitmap = null;
             _caption = System.IO.Path.GetFileNameWithoutExtension(fileName);
         }
+
         public override bool Equals(object obj)
         {
-           if(obj is Photograph)
+            if (obj is Photograph)
             {
                 Photograph p = (Photograph)obj;
                 return string.Equals(FileName, p.FileName, StringComparison.InvariantCultureIgnoreCase);
             }
             return false;
         }
+
         public override int GetHashCode()
         {
             return FileName.ToLowerInvariant().GetHashCode();
         }
+
         public override string ToString()
         {
             return FileName;
         }
+
         public void ReleaseImage()
         {
-            if(_bitmap !=null)
+            if (_bitmap != null)
             {
                 _bitmap.Dispose();
                 _bitmap = null;
             }
         }
+
         public void Dispose()
         {
             ReleaseImage();

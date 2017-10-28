@@ -7,14 +7,14 @@ using System.Text;
 using System.Windows.Forms;
 using Manning.MyPhotoAlbum;
 
-namespace Mainning.MyPhotoControls
+namespace Manning.MyPhotoControls
 {
-    public partial class AlbumEditDialog : Mainning.MyPhotoControls.BaseEditDialog
+    public partial class AlbumEditDialog : Manning.MyPhotoControls.BaseEditDialog
     {
-        public AlbumManager _manager;
-        public AlbumManager Manager
+        private AlbumManager _manager;
+        private AlbumManager Manager
         {
-            get { return _manager;}
+            get { return _manager; }
         }
 
         public AlbumEditDialog(AlbumManager mgr)
@@ -35,7 +35,7 @@ namespace Mainning.MyPhotoControls
             lblConfirm.Enabled = enabled;
             txtConfirm.Enabled = enabled;
 
-            // if enable, assign focus
+            // if enabled, assign focus
             if (enabled)
                 txtPassword.Focus();
         }
@@ -48,8 +48,8 @@ namespace Mainning.MyPhotoControls
             txtAlbumFile.Text = Manager.FullName;
             txtTitle.Text = album.Title;
 
-            //Assign radio button
-            switch(album.PhotoDescriptor)
+            // Assign radio button
+            switch (album.PhotoDescriptor)
             {
                 case PhotoAlbum.DescriptorOption.Caption:
                     rbtnCaption.Checked = true;
@@ -62,33 +62,34 @@ namespace Mainning.MyPhotoControls
                     break;
             }
 
-            // Assign  check box
+            // Assign check box
             string pwd = Manager.Password;
             cbxPassword.Checked = (pwd != null && pwd.Length > 0);
             txtPassword.Text = pwd;
             txtConfirm.Text = pwd;
-            base.ResetDialog();
         }
+
         private bool ValidPassword()
         {
             if (cbxPassword.Checked)
                 return (txtPassword.TextLength > 0 &&
-                    txtConfirm.Text == txtPassword.Text);
+                        txtConfirm.Text == txtPassword.Text);
             else
-                return  true;
+                return true;
         }
+
         protected override void OnClosing(CancelEventArgs e)
         {
-            if(DialogResult== DialogResult.OK)
+            if (DialogResult == DialogResult.OK)
             {
-                if(!ValidPassword())
+                if (!ValidPassword())
                 {
-                    DialogResult result = MessageBox.Show(" The current password is blank"
-                                                           + "or the two password entries "
-                                                           + "do not match.",
-                                                           "Invalid Password",
-                                                           MessageBoxButtons.OK,
-                                                           MessageBoxIcon.Information);
+                    DialogResult result = MessageBox.Show("The current password is blank "
+                                                          + "or the two password entries "
+                                                          + "do not match.",
+                                                          "Invalid Password",
+                                                          MessageBoxButtons.OK,
+                                                          MessageBoxIcon.Information);
 
                     e.Cancel = true;
                 }
@@ -97,10 +98,11 @@ namespace Mainning.MyPhotoControls
                     SaveSettings();
             }
         }
-        private void  SaveSettings()
+
+        private void SaveSettings()
         {
             PhotoAlbum album = Manager.Album;
-            if(album != null)
+            if (album != null)
             {
                 album.Title = txtTitle.Text;
 
@@ -115,13 +117,12 @@ namespace Mainning.MyPhotoControls
                     Manager.Password = txtPassword.Text;
                 else
                     Manager.Password = null;
-
             }
         }
 
         private void txtTitle_TextChanged(object sender, EventArgs e)
         {
-            Text = txtTitle.Text + " - Album Protecties";
+            Text = txtTitle.Text + " - Album Properties";
         }
 
         private void txtPassword_Validating(object sender, CancelEventArgs e)
@@ -129,7 +130,7 @@ namespace Mainning.MyPhotoControls
             if (txtPassword.TextLength > 0)
                 errorProvider1.SetError(txtPassword, "");
             else
-                errorProvider1.SetError(txtPassword, " The assigned password cannot be blank  ");
+                errorProvider1.SetError(txtPassword, "The assigned password cannot be blank");
         }
 
         private void txtConfirm_Validating(object sender, CancelEventArgs e)
@@ -137,7 +138,7 @@ namespace Mainning.MyPhotoControls
             if (txtConfirm.Text == txtPassword.Text)
                 errorProvider1.SetError(txtConfirm, "");
             else
-                errorProvider1.SetError(txtConfirm, " The password and confirmation entries do not match  ");
+                errorProvider1.SetError(txtConfirm, "The password and confirmation entries do not match");
         }
     }
 }
