@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\MyPhotos",
-    "\\MyPhotos\\MyPhotoControls",
-    "\\MyPhotos\\MyPhotos"
+    "\\MyAlbumEditor"
   ],
-  "SelectedNode": "\\MyPhotos\\MyPhotos.sln",
+  "SelectedNode": "\\MyAlbumEditor\\MyAlbumEditor.sln",
   "PreviewInSolutionExplorer": false
 }
