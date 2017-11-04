@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\MyAlbumEditor",
+    "\\MyAlbumEditor\\MyAlbumEditor",
+    "\\MyPhotos",
+    "\\MyPhotos\\MyPhotoAlbum",
+    "\\MyPhotos\\MyPhotoControls",
+    "\\MyPhotos\\MyPhotos"
+  ],
+  "SelectedNode": "\\MyAlbumEditor\\MyAlbumEditor\\EditorForm.cs",
+  "PreviewInSolutionExplorer": false
+}
