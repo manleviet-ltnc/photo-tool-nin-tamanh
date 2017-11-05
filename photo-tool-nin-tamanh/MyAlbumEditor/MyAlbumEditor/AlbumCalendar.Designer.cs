@@ -35,6 +35,7 @@
             // 
             this.calDates.Dock = System.Windows.Forms.DockStyle.Fill;
             this.calDates.Location = new System.Drawing.Point(0, 0);
+            this.calDates.Margin = new System.Windows.Forms.Padding(9, 8, 9, 8);
             this.calDates.MaxSelectionCount = 1;
             this.calDates.Name = "calDates";
             this.calDates.ShowToday = false;
@@ -43,11 +44,11 @@
             // 
             // AlbumCalendar
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.calDates);
             this.Name = "AlbumCalendar";
-            this.Size = new System.Drawing.Size(229, 154);
+            this.Size = new System.Drawing.Size(229, 143);
             this.ResumeLayout(false);
 
         }
