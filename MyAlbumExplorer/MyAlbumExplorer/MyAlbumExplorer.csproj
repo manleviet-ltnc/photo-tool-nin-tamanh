@@ -59,6 +59,7 @@
     <Compile Include="Explorerform.Designer.cs">
       <DependentUpon>Explorerform.cs</DependentUpon>
     </Compile>
+    <Compile Include="MyListViewComparer.cs" />
     <Compile Include="PhotoNode.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
