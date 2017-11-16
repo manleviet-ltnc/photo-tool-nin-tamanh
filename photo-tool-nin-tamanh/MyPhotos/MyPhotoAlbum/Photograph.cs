@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.ComponentModel;
 
 namespace Manning.MyPhotoAlbum
 {
@@ -11,8 +12,22 @@ namespace Manning.MyPhotoAlbum
     /// The photograph class represents a photographic
     /// image stored in the file system
     /// </summary>
-    public class Photograph : IDisposable
+    public class Photograph : IDisposable, IFormattable, IEditableObject
     {
+        private bool _editing = false;
+        internal bool Editing
+        {
+            get { return _editing; }
+            private set { _editing = value; }
+        }
+
+        private string _savedCaption;
+        private string _savedPhotographer;
+        private DateTime _saveDateTaken;
+        private string _savedNotes;
+
+        public event EventHandler ModiFied;
+
         private string _fileName;
         public string FileName
         {
@@ -40,6 +55,7 @@ namespace Manning.MyPhotoAlbum
                 {
                     _caption = value;
                     HasChanged = true;
+                    //OnModified(EventArgs.Empty);
                 }
             }
         }
@@ -54,6 +70,7 @@ namespace Manning.MyPhotoAlbum
                 {
                     _photographer = value;
                     HasChanged = true;
+                    //OnModified(EventArgs.Empty);
                 }
             }
         }
@@ -68,6 +85,7 @@ namespace Manning.MyPhotoAlbum
                 {
                     _dateTaken = value;
                     HasChanged = true;
+                    //OnModified(EventAgrs.Empty);
                 }
             }
         }
@@ -82,6 +100,7 @@ namespace Manning.MyPhotoAlbum
                 {
                     _notes = value;
                     HasChanged = true;
+                    //OnModified(EventArgs.Empty);
                 }
             }
         }
@@ -161,6 +180,48 @@ namespace Manning.MyPhotoAlbum
         public void Dispose()
         {
             ReleaseImage();
+        }
+
+        protected virtual void OnModified(EventArgs e)
+        {
+            if (ModiFied != null)
+                ModiFied(this, e);
+        }
+
+        public void BeginEdit()
+        {
+            if (!Editing)
+            {
+                _savedCaption = Caption;
+                _savedPhotographer = Photographer;
+                _saveDateTaken = DateTaken;
+                _savedNotes = Notes;
+                Editing = true;
+            }
+        }
+
+        public void EndEdit()
+        {
+           if(Editing)
+            {
+                Editing = false;
+                OnModified(EventArgs.Empty);
+            }
+        }
+
+        public void CancelEdit()
+        {
+            if (Editing)
+            {
+                Caption = _savedCaption;
+                Photographer = _savedPhotographer;
+                DateTaken = _saveDateTaken;
+                Notes = _savedNotes;
+                Editing = false;
+
+                HasChanged = false;
+                OnModified(EventArgs.Empty);
+            }
         }
     }
 }

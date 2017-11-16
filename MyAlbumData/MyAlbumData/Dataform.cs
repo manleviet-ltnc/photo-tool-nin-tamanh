@@ -34,9 +34,22 @@ namespace MyAlbumData
             _manager = new AlbumManager();
 
             cmbAlbum.DataSource = Directory.GetFiles(AlbumManager.DefaultPath, "*.abm");
+            SetBindings();
             OpenAlbum();
             SetDataSources();
         }
+        private void SetBindings()
+        {
+            gridPhotoAlbum.DataSource = bsAlbum;
+
+            txtFileName.DataBindings.Add("Text", bsAlbum, "FileName");
+            txtCaption.DataBindings.Add("Text", bsAlbum, "Caption");
+            txtPhotographer.DataBindings.Add("Text", bsAlbum, "Photographer");
+            dtpDateTaken.DataBindings.Add("Value", bsAlbum, "Datetaken");
+            txtNotes.DataBindings.Add("Text", bsAlbum, "Notes");
+            pbxPhoto.DataBindings.Add("Image", bsAlbum, "Image");
+        }
+
 
         private void btnClose_Click(object sender, EventArgs e)
         {
@@ -70,15 +83,34 @@ namespace MyAlbumData
         private bool CloseAlbum()
         {
             if (Manager.Album != null)
+            {
+                if (Manager.Album.HasChanged)
+                {
+                    DialogResult result = AlbumController.AskForSave(Manager);
+                    if (result == DialogResult.Cancel)
+                        return false;
+                    if (result == DialogResult.Yes)
+                        Manager.Save();
+                }
                 Manager.Album.Dispose();
-
+            }
             return true;
         }
 
         private void SetDataSources()
         {
-            gridPhotoAlbum.DataSource = Manager.Album;
+            bsAlbum.DataSource = Manager.Album;
+            SetComboColumnDataSource();
+
         }
+
+        private void SetComboColumnDataSource()
+        {
+            DataGridViewComboBoxColumn pgCol = gridPhotoAlbum.Columns["Photographer"] as DataGridViewComboBoxColumn;
+            if (pgCol != null)
+                pgCol.DataSource = Manager.Photographers;
+        }
+
         private void SetupGrid()
         {
             gridPhotoAlbum.SuspendLayout();
@@ -99,9 +131,11 @@ namespace MyAlbumData
             takenCol.DataPropertyName = "DateTaken";
             takenCol.Name = "Date Taken";
 
-            DataGridViewColumn pgCol = new DataGridViewTextBoxColumn();
+            DataGridViewComboBoxColumn pgCol = new DataGridViewComboBoxColumn();
+            pgCol.AutoComplete = true;
             pgCol.DataPropertyName = "Photographer";
-            pgCol.Name = "Date Taken";
+            pgCol.MaxDropDownItems = 4;
+            pgCol.Name = "Photographer";
 
             DataGridViewTextBoxColumn fileCol = new DataGridViewTextBoxColumn();
             fileCol.DataPropertyName = "FileName";
@@ -116,6 +150,107 @@ namespace MyAlbumData
 
             gridPhotoAlbum.ResumeLayout();
 
+        }
+
+        private void gridPhotoAlbum_CellMouseDown(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right && e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                DataGridViewRow row = gridPhotoAlbum.Rows[e.RowIndex];
+                DataGridViewCell cell = row.Cells[e.ColumnIndex];
+                int dataIndex = gridPhotoAlbum.Columns["Date Taken"].Index;
+
+                if (dataIndex == e.ColumnIndex)
+                    ShowCalendarDropdown(cell);
+                else
+                {
+                    ContextMenuStrip menu = new ContextMenuStrip();
+                    ToolStripItem item = menu.Items.Add("Edit...");
+                    item.Tag = gridPhotoAlbum.Rows[e.RowIndex];
+                    item.Click += new EventHandler(editMenu_Click);
+
+                    menu.Show(MousePosition);
+                }
+            }
+        }
+
+        private void editMenu_Click(object sender, EventArgs e)
+        {
+            ToolStripItem item = sender as ToolStripItem;
+            if(item != null && item.Tag is DataGridViewRow)
+            {
+                DataGridViewRow row = item.Tag as DataGridViewRow;
+                Photograph photo = row.DataBoundItem as Photograph;
+                using (PhotoEditDialog dlg = new PhotoEditDialog(photo))
+                {
+                    if (dlg.ShowDialog() == DialogResult.OK && photo.HasChanged)
+                    {
+                        SetComboColumnDataSource();
+                    }
+                
+                }
+            }
+        }
+
+        private void ShowCalendarDropdown(DataGridViewCell cell)
+        {
+            DateTime current = (DateTime)cell.Value;
+            MonthCalendar cal = new MonthCalendar();
+            Panel panel = new Panel();
+            Form f = new Form();
+
+            cal.MaxSelectionCount = 1;
+            cal.SetDate(current);
+            cal.DateSelected += new DateRangeEventHandler(cal_DateSelected);
+
+            panel.Width = cal.Width + 2;
+            panel.Height = cal.Height + 2;
+            panel.BorderStyle = BorderStyle.FixedSingle;
+            panel.Controls.Add(cal);
+
+            f.FormBorderStyle = FormBorderStyle.None;
+            f.ShowInTaskbar = false;
+            f.Size = panel.Size;
+            f.Location = MousePosition;
+            f.StartPosition = FormStartPosition.Manual;
+            f.Controls.Add(panel);
+
+            f.Deactivate += delegate { f.Close(); };
+            f.FormClosing += delegate
+            {
+                if (cal.SelectionStart != current)
+                    cell.Value = cal.SelectionStart;
+            };
+            f.Show();
+        }
+
+        private void cal_DateSelected(object sender, DateRangeEventArgs e)
+        {
+            MonthCalendar cal = sender as MonthCalendar;
+            Form f = cal.FindForm();
+            f.Close();
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            e.Cancel = !CloseAlbum();
+            base.OnFormClosing(e);
+        }
+
+        private void btnPrevious_Click(object sender, EventArgs e)
+        {
+            bsAlbum.MovePrevious();
+        }
+
+        private void btnNext_Click(object sender, EventArgs e)
+        {
+            bsAlbum.MoveNext();
+        }
+
+        private void bsAlbum_CurrentChanged(object sender, EventArgs e)
+        {
+            btnNext.Enabled = (bsAlbum.Position < bsAlbum.Count - 1);
+            btnPrevious.Enabled = (bsAlbum.Position > 0);
         }
     }
 }
