@@ -191,8 +191,10 @@
             this.ClientSize = new System.Drawing.Size(584, 361);
             this.Controls.Add(this.toolStripParent);
             this.Controls.Add(this.menuStrip1);
+            this.DataBindings.Add(new System.Windows.Forms.Binding("Location", global::MyPhotos.Properties.Settings.Default, "ParentLocation", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.IsMdiContainer = true;
+            this.Location = global::MyPhotos.Properties.Settings.Default.ParentLocation;
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "ParentForm";
             this.Text = "ParentForm";

@@ -652,5 +652,21 @@ namespace MyPhotos
             }
 
         }
+
+        private void mnuHelpAbout_Click(object sender, EventArgs e)
+        {
+            using (AboutBox dlg = new AboutBox())
+            {
+                dlg.IsMdiApplication = IsMdiChild;
+                dlg.AboutText = string.Format("MyPhotos Application, Version {0}\n"
+                                                + "Sample for \"Windows Forms in"
+                                                + "Action\"by Erik Brown\n"
+                                                + "Copyright Manning Publications Co.",
+                                                Application.ProductVersion);
+                dlg.Owner = this;
+                dlg.Icon = this.Icon;
+                dlg.ShowDialog();
+            }
+        }
     }
 }
