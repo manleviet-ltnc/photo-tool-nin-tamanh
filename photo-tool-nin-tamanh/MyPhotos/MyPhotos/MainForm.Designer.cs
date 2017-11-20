@@ -53,6 +53,7 @@
             this.mnuFileSave = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFileSaveAs = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.mnuFilePageSetup = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFilePrint = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuFilePrintPreview = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
@@ -132,6 +133,7 @@
             this.mnuAlbumProps,
             this.mnuSlideShow});
             this.ctxMenuPhoto.Name = "ctxMenuPhoto";
+            this.ctxMenuPhoto.OwnerItem = this.mnuView;
             this.ctxMenuPhoto.Size = new System.Drawing.Size(193, 170);
             this.ctxMenuPhoto.Opening += new System.ComponentModel.CancelEventHandler(this.ctxMenuPhoto_Opening);
             // 
@@ -257,6 +259,7 @@
             this.mnuFileSave,
             this.mnuFileSaveAs,
             this.toolStripSeparator2,
+            this.mnuFilePageSetup,
             this.mnuFilePrint,
             this.mnuFilePrintPreview,
             this.toolStripSeparator3,
@@ -325,38 +328,50 @@
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(149, 6);
             // 
+            // mnuFilePageSetup
+            // 
+            this.mnuFilePageSetup.MergeAction = System.Windows.Forms.MergeAction.Insert;
+            this.mnuFilePageSetup.MergeIndex = 7;
+            this.mnuFilePageSetup.Name = "mnuFilePageSetup";
+            this.mnuFilePageSetup.Size = new System.Drawing.Size(152, 22);
+            this.mnuFilePageSetup.Text = "Page Set&up";
+            this.mnuFilePageSetup.Click += new System.EventHandler(this.mnuFilePageSetup_Click);
+            this.mnuFilePageSetup.MouseDown += new System.Windows.Forms.MouseEventHandler(this.mnuFilePageSetup_MouseDown);
+            // 
             // mnuFilePrint
             // 
             this.mnuFilePrint.Image = ((System.Drawing.Image)(resources.GetObject("mnuFilePrint.Image")));
             this.mnuFilePrint.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuFilePrint.MergeAction = System.Windows.Forms.MergeAction.Insert;
-            this.mnuFilePrint.MergeIndex = 7;
+            this.mnuFilePrint.MergeIndex = 8;
             this.mnuFilePrint.Name = "mnuFilePrint";
             this.mnuFilePrint.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
             this.mnuFilePrint.Size = new System.Drawing.Size(152, 22);
             this.mnuFilePrint.Text = "&Print";
+            this.mnuFilePrint.Click += new System.EventHandler(this.mnuFilePrint_Click);
             // 
             // mnuFilePrintPreview
             // 
             this.mnuFilePrintPreview.Image = ((System.Drawing.Image)(resources.GetObject("mnuFilePrintPreview.Image")));
             this.mnuFilePrintPreview.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.mnuFilePrintPreview.MergeAction = System.Windows.Forms.MergeAction.Insert;
-            this.mnuFilePrintPreview.MergeIndex = 8;
+            this.mnuFilePrintPreview.MergeIndex = 9;
             this.mnuFilePrintPreview.Name = "mnuFilePrintPreview";
             this.mnuFilePrintPreview.Size = new System.Drawing.Size(152, 22);
             this.mnuFilePrintPreview.Text = "Print Pre&view";
+            this.mnuFilePrintPreview.Click += new System.EventHandler(this.mnuFilePrintPreview_Click);
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.MergeAction = System.Windows.Forms.MergeAction.Insert;
-            this.toolStripSeparator3.MergeIndex = 9;
+            this.toolStripSeparator3.MergeIndex = 10;
             this.toolStripSeparator3.Name = "toolStripSeparator3";
             this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
             // 
             // mnuFileExit
             // 
             this.mnuFileExit.MergeAction = System.Windows.Forms.MergeAction.MatchOnly;
-            this.mnuFileExit.MergeIndex = 10;
+            this.mnuFileExit.MergeIndex = 11;
             this.mnuFileExit.Name = "mnuFileExit";
             this.mnuFileExit.Size = new System.Drawing.Size(152, 22);
             this.mnuFileExit.Text = "E&xit";
@@ -639,6 +654,8 @@
             // 
             this.toolStripContainer1.ContentPanel.Controls.Add(this.pbxPhoto);
             this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(418, 189);
+            this.toolStripContainer1.ContentPanel.DragDrop += new System.Windows.Forms.DragEventHandler(this.toolStripContainer1_ContentPanel_DragDrop);
+            this.toolStripContainer1.ContentPanel.DragEnter += new System.Windows.Forms.DragEventHandler(this.toolStripContainer1_ContentPanel_DragEnter);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 24);
             this.toolStripContainer1.Name = "toolStripContainer1";
@@ -841,6 +858,7 @@
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripDropDownButton tsdImage;
         private System.Windows.Forms.ToolStripSplitButton tssSelect;
+        private System.Windows.Forms.ToolStripMenuItem mnuFilePageSetup;
     }
 }
 

@@ -1,8 +1,14 @@
 {
   "ExpandedNodes": [
     "",
-    "\\MyAlbumEditor"
+    "\\MyAlbumData",
+    "\\MyAlbumEditor",
+    "\\MyAlbumExplorer",
+    "\\MyPhotos",
+    "\\MyPhotos\\MyPhotoControls",
+    "\\photo-tool-nin-tamanh",
+    "\\photo-tool-nin-tamanh\\MyPhotos"
   ],
-  "SelectedNode": "\\MyAlbumEditor\\MyAlbumEditor.sln",
+  "SelectedNode": "\\photo-tool-nin-tamanh\\MyPhotos\\MyPhotos.sln",
   "PreviewInSolutionExplorer": false
 }

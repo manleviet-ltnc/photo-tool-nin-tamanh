@@ -15,7 +15,7 @@ namespace MyPhotos
     public partial class MainForm : Form
     {
         private AlbumManager _manager;
-        private AlbumManager Manager
+        internal AlbumManager Manager
         {
             get
             {
@@ -503,6 +503,8 @@ namespace MyPhotos
                 DisplayAlbum();
             }
 
+            pbxPhoto.AllowDrop = true;
+
             base.OnLoad(e);
         }
 
@@ -583,6 +585,72 @@ namespace MyPhotos
             if (IsMdiChild)
                 UpdatePixelButton(PixelDialog.GlobalInstance.Visible);
             base.OnEnter(e);
+        }
+
+        private void mnuFilePrintPreview_Click(object sender, EventArgs e)
+        {
+            PrintSupport.PrintPreview();
+        }
+
+        private void mnuFilePrint_Click(object sender, EventArgs e)
+        {
+            PrintSupport.Print();
+        }
+
+        private void mnuFilePageSetup_Click(object sender, EventArgs e)
+        {
+            PrintSupport.PageSetup();
+        }
+
+        private void mnuFilePageSetup_MouseDown(object sender, MouseEventArgs e)
+        {
+            Photograph photo = Manager.Current;
+            if (photo != null)
+            {
+                DataObject data = new DataObject();
+                string[] fileArray = new string[1];
+                fileArray[0] = photo.FileName;
+                data.SetData(DataFormats.FileDrop, fileArray);
+                data.SetData(DataFormats.Text, photo.Caption);
+                pbxPhoto.DoDragDrop(data, DragDropEffects.Copy);
+            }
+        }
+
+        private void toolStripContainer1_ContentPanel_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+                e.Effect = DragDropEffects.Copy;
+            else
+                e.Effect = DragDropEffects.None;
+        }
+
+        private void toolStripContainer1_ContentPanel_DragDrop(object sender, DragEventArgs e)
+        {
+            object obj = e.Data.GetData(DataFormats.FileDrop);
+            Array files = obj as Array;
+
+            int index = -1;
+            foreach (object o in files)
+            {
+                string s = o as string;
+                if (s != null)
+                {
+                    Photograph photo = new Photograph(s);
+
+                    index = Manager.Album.IndexOf(photo);
+                    if (index < 0)
+                    {
+                        Manager.Album.Add(photo);
+                        index = Manager.Album.Count - 1;
+                    }
+                }
+            }
+            if (index >= 0)
+            {
+                Manager.Index = index;
+                DisplayAlbum();
+            }
+
         }
     }
 }
